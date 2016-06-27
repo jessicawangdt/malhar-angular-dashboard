@@ -47,21 +47,29 @@ angular.module('ui.dashboard')
       }
 
       if (this.style && _.has(this.style, 'width')) { //TODO deprecate style attribute
-        this.setWidth(this.style.width);
+        if (_.has(this.style, 'minWidth')) {
+          this.setWidth(this.style.width, undefined, this.style.minWidth, undefined);
+        } else {
+          this.setWidth(this.style.width, undefined);
+        }
       }
 
       if (this.size && _.has(this.size, 'width')) {
-        this.setWidth(this.size.width);
+        if (_.has(this.size, 'minWidth')) {
+          this.setWidth(this.size.width, undefined, this.size.minWidth, undefined);
+        } else {
+          this.setWidth(this.size.width, undefined);
+        }
       }
     }
 
     WidgetModel.prototype = {
       // sets the width (and widthUnits)
-      setWidth: function (width, units) {
+      setWidth: function (width, widthUnits, minWidth, minWidthUnits) {
         width = width.toString();
-        units = units || width.replace(/^[-\.\d]+/, '') || '%';
+        widthUnits = widthUnits || width.replace(/^[-\.\d]+/, '') || '%';
 
-        this.widthUnits = units;
+        this.widthUnits = widthUnits;
         width = parseFloat(width);
 
         if (width < 0 || isNaN(width)) {
@@ -69,12 +77,12 @@ angular.module('ui.dashboard')
           return false;
         }
 
-        if (units === '%') {
+        if (widthUnits === '%') {
           width = Math.min(100, width);
           width = Math.max(0, width);
         }
 
-        this.containerStyle.width = width + '' + units;
+        this.containerStyle.width = width + '' + widthUnits;
 
         this.updateSize(this.containerStyle);
 
