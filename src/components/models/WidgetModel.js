@@ -82,6 +82,27 @@ angular.module('ui.dashboard')
           width = Math.max(0, width);
         }
 
+
+        if (minWidth !== undefined) {
+          minWidth = minWidth.toString();
+          minWidthUnits = minWidthUnits || minWidth.replace(/^[-\.\d]+/, '') || '%';
+
+          this.minWidthUnits = minWidthUnits;
+          minWidth = parseFloat(minWidth);
+
+          if (minWidth < 0 || isNaN(minWidth)) {
+            $log.warn('malhar-angular-dashboard: setWidth was called when minWidth was ' + minWidth);
+            return false;
+          }
+
+          if (minWidthUnits === '%') {
+            minWidth = Math.min(100, minWidth);
+            minWidth = Math.max(0, minWidth);
+          }
+
+          width = _.max([minWidth, width]); // if width < minWidth, set width = minWidth
+        }
+
         this.containerStyle.width = width + '' + widthUnits;
 
         this.updateSize(this.containerStyle);
