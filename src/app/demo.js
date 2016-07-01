@@ -84,7 +84,11 @@ angular.module('app', [
       },
       {
         name: 'time',
-        directive: 'wt-time'
+        directive: 'wt-time',
+        size: {
+          width: '30%',
+          minWidth: '27%'
+        }
       },
       {
         name: 'datamodel',
