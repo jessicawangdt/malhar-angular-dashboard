@@ -282,6 +282,8 @@ angular.module('ui.dashboard')
         scope.options.saveDashboard = scope.externalSaveDashboard;
         scope.options.removeWidget = scope.removeWidget;
         scope.options.openWidgetSettings = scope.openWidgetSettings;
+        scope.options.clear = scope.clear;
+        scope.options.resetWidgetsToDefault = scope.resetWidgetsToDefault
 
         // save state
         scope.$on('widgetChanged', function (event) {
@@ -887,6 +889,11 @@ angular.module('ui.dashboard')
         if (units === '%') {
           width = Math.min(100, width);
           width = Math.max(0, width);
+        }
+        
+        // check with min width if set, unit refer to width's unit
+        if (this.size && _.has(this.size, 'minWidth')) {
+          width = _.max([parseFloat(this.size.minWidth), width]);
         }
 
         this.containerStyle.width = width + '' + units;
