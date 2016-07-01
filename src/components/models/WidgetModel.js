@@ -73,6 +73,11 @@ angular.module('ui.dashboard')
           width = Math.min(100, width);
           width = Math.max(0, width);
         }
+        
+        // check with min width if set, unit refer to width's unit
+        if (this.size && _.has(this.size, 'minWidth')) {
+          width = _.max([parseFloat(this.size.minWidth), width]);
+        }
 
         this.containerStyle.width = width + '' + units;
 
