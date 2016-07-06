@@ -209,6 +209,7 @@ Example
         directive: 'wt-fluid',
         size: {
           width: '50%',
+          minWidth: '27%',
           height: '250px'
         }
       }
